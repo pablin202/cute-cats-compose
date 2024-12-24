@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.bundles.networking)
     implementation(libs.bundles.compose)
+    implementation(libs.androidx.window)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

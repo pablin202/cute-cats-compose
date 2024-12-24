@@ -2,19 +2,12 @@ package com.pdm.cats.presentation.petlist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,13 +17,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pdm.cats.data.dto.Cat
+import com.pdm.cats.presentation.components.CustomTopBar
 import com.pdm.cats.presentation.components.LoadingAnimation
-import com.pdm.cats.presentation.petlist.components.PetListItem
+import com.pdm.cats.presentation.navigation.ContentType
+import com.pdm.cats.presentation.petlist.components.PetList
+import com.pdm.cats.presentation.petlist.components.PetListAndDetails
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetListScreen(
+    contentType: ContentType,
     onPetClicked: (Cat) -> Unit
 ) {
     val viewModel: PetListViewModel = koinViewModel()
@@ -38,16 +34,12 @@ fun PetListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Cats") },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                )
-            )
+            CustomTopBar("Cute Cats")
         },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         PetListContent(
+            contentType = contentType,
             state = petsUIState,
             modifier = Modifier.padding(innerPadding),
         ) {
@@ -58,6 +50,7 @@ fun PetListScreen(
 
 @Composable
 fun PetListContent(
+    contentType: ContentType,
     state: PetsUIState,
     modifier: Modifier,
     onPetClicked: (Cat) -> Unit
@@ -72,12 +65,14 @@ fun PetListContent(
             LoadingAnimation()
         }
         AnimatedVisibility(visible = state.cats.isNotEmpty()) {
-            LazyColumn {
-                items(state.cats) { cat ->
-                    PetListItem(cat = cat) {
-                        onPetClicked(cat)
-                    }
-                }
+            if (contentType == ContentType.List) {
+                PetList(
+                    pets = state.cats,
+                    onPetClicked = onPetClicked,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            } else {
+                PetListAndDetails(state.cats)
             }
         }
         AnimatedVisibility(visible = state.error != null) {
@@ -89,7 +84,9 @@ fun PetListContent(
 @Preview(showBackground = true)
 @Composable
 fun PetListScreenPreview() {
-    PetListScreen() {
+    PetListScreen(
+        contentType = ContentType.List
+    ) {
 
     }
 }
