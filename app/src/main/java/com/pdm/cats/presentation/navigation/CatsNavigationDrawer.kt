@@ -30,7 +30,7 @@ fun CatsNavigationDrawer(
     onHomeClick: () -> Unit,
     onDrawerClick: () -> Unit = {},
 ) {
-    val items = listOf(Screens.PetsScreen, Screens.FavoritesScreen)
+    val items = listOf(PetListRoute, FavoritesRoute)
     val selectedItem = remember { mutableStateOf(items[0]) }
 
     Column(
@@ -63,10 +63,10 @@ fun CatsNavigationDrawer(
         }
         NavigationDrawerItem(
             label = { Text(text = "All Cats") },
-            selected = selectedItem.value == Screens.PetsScreen,
+            selected = selectedItem.value == PetListRoute,
             onClick = {
                 onHomeClick()
-                selectedItem.value = Screens.PetsScreen
+                selectedItem.value = PetListRoute
             },
             icon = {
                 Icon(
@@ -77,10 +77,10 @@ fun CatsNavigationDrawer(
         )
         NavigationDrawerItem(
             label = { Text(text = "Favorites") },
-            selected = selectedItem.value == Screens.FavoritesScreen,
+            selected = selectedItem.value == FavoritesRoute,
             onClick = {
                 onFavoriteClick()
-                selectedItem.value = Screens.FavoritesScreen
+                selectedItem.value = FavoritesRoute
             },
             icon = {
                 Icon(

@@ -19,13 +19,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
-import com.pdm.cats.presentation.navigation.AppNavigation
 import com.pdm.cats.presentation.navigation.AppNavigationContent
 import com.pdm.cats.presentation.navigation.CatsNavigationDrawer
 import com.pdm.cats.presentation.navigation.ContentType
 import com.pdm.cats.presentation.navigation.DeviceFoldPosture
+import com.pdm.cats.presentation.navigation.FavoritesRoute
 import com.pdm.cats.presentation.navigation.NavigationType
-import com.pdm.cats.presentation.navigation.Screens
+import com.pdm.cats.presentation.navigation.PetListRoute
 import com.pdm.cats.presentation.navigation.isBookPosture
 import com.pdm.cats.presentation.navigation.isSeparating
 import com.pdm.cats.ui.theme.AppTheme
@@ -116,11 +116,10 @@ class MainActivity : ComponentActivity() {
                             PermanentDrawerSheet {
                                 CatsNavigationDrawer(
                                     onFavoriteClick = {
-                                        navController.navigate(Screens.FavoritesScreen.route)
-
+                                        navController.navigate(route = FavoritesRoute)
                                     },
                                     onHomeClick = {
-                                        navController.navigate(Screens.PetsScreen.route)
+                                        navController.navigate(route = PetListRoute)
                                     }
                                 )
                             }
@@ -130,10 +129,10 @@ class MainActivity : ComponentActivity() {
                             navigationType = navigationType,
                             contentType = contentType,
                             onFavoriteClick = {
-                                navController.navigate(Screens.FavoritesScreen.route)
+                                navController.navigate(route = FavoritesRoute)
                             },
                             onHomeClick = {
-                                navController.navigate(Screens.PetsScreen.route)
+                                navController.navigate(route = PetListRoute)
                             },
                             navHostController = navController,
                             onDrawerClick = { }
@@ -145,11 +144,11 @@ class MainActivity : ComponentActivity() {
                             ModalDrawerSheet {
                                 CatsNavigationDrawer(
                                     onFavoriteClick = {
-                                        navController.navigate(Screens.FavoritesScreen.route)
+                                        navController.navigate(route = FavoritesRoute)
 
                                     },
                                     onHomeClick = {
-                                        navController.navigate(Screens.PetsScreen.route)
+                                        navController.navigate(route = PetListRoute)
                                     },
                                     onDrawerClick = {
                                         scope.launch {
@@ -165,10 +164,10 @@ class MainActivity : ComponentActivity() {
                             navigationType = navigationType,
                             contentType = contentType,
                             onFavoriteClick = {
-                                navController.navigate(Screens.FavoritesScreen.route)
+                                navController.navigate(route = FavoritesRoute)
                             },
                             onHomeClick = {
-                                navController.navigate(Screens.PetsScreen.route)
+                                navController.navigate(route = PetListRoute)
                             },
                             navHostController = navController,
                             onDrawerClick = {

@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pdm.cats.data.dto.Cat
+import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.presentation.components.CustomTopBar
 import com.pdm.cats.presentation.components.LoadingAnimation
 import com.pdm.cats.presentation.navigation.ContentType
@@ -27,7 +28,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun PetListScreen(
     contentType: ContentType,
-    onPetClicked: (Cat) -> Unit
+    onPetClicked: (CatModel) -> Unit
 ) {
     val viewModel: PetListViewModel = koinViewModel()
     val petsUIState by viewModel.petsUIState.collectAsStateWithLifecycle()
@@ -53,7 +54,7 @@ fun PetListContent(
     contentType: ContentType,
     state: PetsUIState,
     modifier: Modifier,
-    onPetClicked: (Cat) -> Unit
+    onPetClicked: (CatModel) -> Unit
 ) {
     Column(
         modifier = modifier

@@ -2,16 +2,15 @@ package com.pdm.cats.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
+import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.presentation.favorites.FavoritesScreen
 import com.pdm.cats.presentation.petdetails.PetDetailsScreen
 import com.pdm.cats.presentation.petlist.PetListScreen
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import kotlin.reflect.typeOf
 
 @Composable
 fun AppNavigation(
@@ -20,38 +19,34 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screens.PetsScreen.route
+        startDestination = PetListRoute
     ) {
-        composable(Screens.PetsScreen.route) {
+        composable<PetListRoute> {
             PetListScreen(
                 contentType = contentType,
             ) {
                 navHostController.navigate(
-                    "${Screens.PetDetailsScreen.route}/${Json.encodeToString(it)}"
+                    route = PetDetailsRoute(
+                        catModel = it
+                    )
                 )
             }
         }
 
-        composable(
-            route = "${Screens.PetDetailsScreen.route}/{cat}",
-            arguments = listOf(
-                navArgument("cat") {
-                    type = NavType.StringType
-                }
-            )
+        composable<PetDetailsRoute>(
+            typeMap = mapOf(typeOf<CatModel>() to CatType)
         )
-        {
+        { backStackEntry ->
+            val detailsParameters = backStackEntry.toRoute<PetDetailsRoute>()
             PetDetailsScreen(
-                cat = Json.decodeFromString(it.arguments?.getString("cat") ?: ""),
+                catModel = detailsParameters.catModel,
                 onBackPressed = {
                     navHostController.popBackStack()
                 }
             )
         }
 
-        composable(
-            Screens.FavoritesScreen.route
-        ) {
+        composable<FavoritesRoute> {
             FavoritesScreen()
         }
     }

@@ -12,11 +12,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pdm.cats.data.dto.Cat
+import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.presentation.petdetails.PetDetailsScreenContent
 
 @Composable
 fun PetListAndDetails(
-    cats: List<Cat>
+    cats: List<CatModel>
 ) {
     var currentPet by remember {
         mutableStateOf(cats.first())
@@ -40,7 +41,10 @@ fun PetListAndDetails(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .weight(1f),
-            cat = currentPet
+            imageUrl = currentPet.url,
+            name = currentPet.breeds[0].name,
+            description = currentPet.breeds[0].description,
+            temperament = currentPet.breeds[0].temperament
         )
     }
 }
