@@ -35,6 +35,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
+        freeCompilerArgs += "-Xcontext-receivers"
         jvmTarget = "11"
     }
     buildFeatures {
@@ -45,6 +46,7 @@ android {
         arg("room.debug", "true")
     }
 }
+
 
 dependencies {
 

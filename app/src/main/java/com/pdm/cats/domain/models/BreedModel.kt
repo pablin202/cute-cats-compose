@@ -2,6 +2,7 @@ package com.pdm.cats.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,4 +18,10 @@ data class BreedModel(
     val weight: WeightModel,
     val wikipediaUrl: String,
     val description: String,
+    val adaptability: Int,
+    val affectionLevel: Int,
+    val energyLevel: Int,
+    val vetstreetUrl: String?,
+    val vcahospitalsUrl: String?,
+    val cfaUrl: String?
 ): Parcelable

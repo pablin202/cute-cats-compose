@@ -18,5 +18,16 @@ data class BreedDto(
     val weight: WeightDto,
     val description: String,
     @SerialName("wikipedia_url")
-    val wikipediaUrl: String
+    val wikipediaUrl: String,
+    val adaptability: Int,
+    @SerialName("affection_level")
+    val affectionLevel: Int,
+    @SerialName("energy_level")
+    val energyLevel: Int,
+    @SerialName("vetstreet_url")
+    val vetstreetUrl: String? = null,
+    @SerialName("vcahospitals_url")
+    val vcahospitalsUrl: String? = null,
+    @SerialName("cfa_url")
+    val cfaUrl: String? = null
 )

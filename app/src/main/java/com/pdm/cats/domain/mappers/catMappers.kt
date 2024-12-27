@@ -25,7 +25,13 @@ fun BreedDto.toModel(): BreedModel {
         countryCodes = this.countryCodes,
         wikipediaUrl = this.wikipediaUrl,
         weight = this.weight.toModel(),
-        description = this.description
+        description = this.description,
+        adaptability = this.adaptability,
+        affectionLevel = this.affectionLevel,
+        energyLevel = this.energyLevel,
+        vetstreetUrl = this.vetstreetUrl,
+        vcahospitalsUrl = this.vcahospitalsUrl,
+        cfaUrl = this.cfaUrl
     )
 }
 

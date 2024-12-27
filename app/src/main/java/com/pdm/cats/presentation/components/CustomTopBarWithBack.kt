@@ -19,7 +19,7 @@ fun CustomTopBarWithBack(
 ) {
     TopAppBar(
         title = { Text(title) },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
@@ -29,6 +29,7 @@ fun CustomTopBarWithBack(
                 content = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = "Back"
                     )
                 }

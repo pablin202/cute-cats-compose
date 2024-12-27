@@ -8,12 +8,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-//@Serializable
-//@Parcelize
-//data class PetDetailsScreenParameters(
-//    val catModel: CatModel,
-//) : Parcelable
-
 @Serializable
 data object PetListRoute
 

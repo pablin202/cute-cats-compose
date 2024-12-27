@@ -1,5 +1,10 @@
 package com.pdm.cats.presentation.petlist.components
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -20,10 +25,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.pdm.cats.domain.models.CatModel
+import androidx.compose.foundation.Image
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
-fun PetListItem(
+fun SharedTransitionScope.PetListItem(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     cat: CatModel,
     onClick: (cat: CatModel) -> Unit
 ) {
@@ -45,7 +52,14 @@ fun PetListItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .clip(MaterialTheme.shapes.medium),
+                    .clip(MaterialTheme.shapes.medium)
+                    .sharedElement(
+                        state = rememberSharedContentState(key = "image/${cat.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 500)
+                        }
+                    ),
                 contentScale = ContentScale.Crop
             )
 

@@ -1,5 +1,7 @@
 package com.pdm.cats.presentation.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,42 +14,47 @@ import com.pdm.cats.presentation.petdetails.PetDetailsScreen
 import com.pdm.cats.presentation.petlist.PetListScreen
 import kotlin.reflect.typeOf
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun AppNavigation(
     contentType: ContentType,
     navHostController: NavHostController = rememberNavController()
 ) {
-    NavHost(
-        navController = navHostController,
-        startDestination = PetListRoute
-    ) {
-        composable<PetListRoute> {
-            PetListScreen(
-                contentType = contentType,
-            ) {
-                navHostController.navigate(
-                    route = PetDetailsRoute(
-                        catModel = it
+    SharedTransitionLayout {
+        NavHost(
+            navController = navHostController,
+            startDestination = PetListRoute
+        ) {
+            composable<PetListRoute> {
+                PetListScreen(
+                    animatedVisibilityScope = this,
+                    contentType = contentType,
+                ) {
+                    navHostController.navigate(
+                        route = PetDetailsRoute(
+                            catModel = it
+                        )
                     )
+                }
+            }
+
+            composable<PetDetailsRoute>(
+                typeMap = mapOf(typeOf<CatModel>() to CatType)
+            )
+            { backStackEntry ->
+                val detailsParameters = backStackEntry.toRoute<PetDetailsRoute>()
+                PetDetailsScreen(
+                    animatedVisibilityScope = this,
+                    catModel = detailsParameters.catModel,
+                    onBackPressed = {
+                        navHostController.popBackStack()
+                    }
                 )
             }
-        }
 
-        composable<PetDetailsRoute>(
-            typeMap = mapOf(typeOf<CatModel>() to CatType)
-        )
-        { backStackEntry ->
-            val detailsParameters = backStackEntry.toRoute<PetDetailsRoute>()
-            PetDetailsScreen(
-                catModel = detailsParameters.catModel,
-                onBackPressed = {
-                    navHostController.popBackStack()
-                }
-            )
-        }
-
-        composable<FavoritesRoute> {
-            FavoritesScreen()
+            composable<FavoritesRoute> {
+                FavoritesScreen()
+            }
         }
     }
 }

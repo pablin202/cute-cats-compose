@@ -1,6 +1,8 @@
 package com.pdm.cats.presentation.navigation
 
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -12,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun CatsBottomNavigationBar(
@@ -21,7 +24,6 @@ fun CatsBottomNavigationBar(
     val items = listOf(PetListRoute, FavoritesRoute)
     val selectedItem = remember { mutableStateOf(items[0]) }
     NavigationBar(
-        modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.background,
     ) {
         NavigationBarItem(
