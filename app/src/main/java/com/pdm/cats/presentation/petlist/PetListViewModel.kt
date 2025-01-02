@@ -1,6 +1,5 @@
 package com.pdm.cats.presentation.petlist
 
-import android.os.Debug
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,13 +7,8 @@ import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.domain.repository.PetsRepository
 import com.pdm.cats.domain.util.NetworkResult
 import com.pdm.cats.domain.util.asResult
-import com.pdm.cats.domain.util.stateInWhileSubscribed
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class PetListViewModel(
@@ -29,19 +23,42 @@ class PetListViewModel(
     private val _favoritePets = MutableStateFlow<List<CatModel>>(emptyList())
     val favoritePets: StateFlow<List<CatModel>> get() = _favoritePets
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val cats: StateFlow<List<CatModel>> = _currentPage
-        .filter { !_petsUIState.value.isLoading }
-        .flatMapLatest { page ->
-            petsRepository.getCats(page).asResult().map {
+    init {
+        if (_petsUIState.value.cats.isEmpty()) {
+            Log.d("PetListViewModel", "Initializing ViewModel")
+            _petsUIState.value = _petsUIState.value.copy(isLoading = true)
+            getPets()
+            getBreeds()
+        }
+    }
+
+    private fun getBreeds() {
+        viewModelScope.launch {
+            petsRepository.getBreeds().asResult().collect {
                 when (it) {
                     is NetworkResult.Success -> {
-                        Log.d("CATS", it.data.toString())
+                        _petsUIState.value = _petsUIState.value.copy(
+                            breeds = it.data.map { breed -> breed.name to breed.id }
+                        )
+                    }
+
+                    is NetworkResult.Error -> {
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getPets() {
+        viewModelScope.launch {
+            petsRepository.getCats(_currentPage.value).asResult().collect {
+                when (it) {
+                    is NetworkResult.Success -> {
                         _petsUIState.value = _petsUIState.value.copy(
                             isLoading = false,
                             cats = _petsUIState.value.cats + it.data
                         )
-                        _petsUIState.value.cats + it.data
                     }
 
                     is NetworkResult.Error -> {
@@ -49,12 +66,59 @@ class PetListViewModel(
                             isLoading = false,
                             error = it.error
                         )
-                        _petsUIState.value.cats
                     }
                 }
             }
         }
-        .stateInWhileSubscribed(initialValue = emptyList())
+    }
+
+    private fun getPetsByBreed() {
+        viewModelScope.launch {
+            _petsUIState.value = _petsUIState.value.copy(isLoading = true)
+            petsRepository.getCatsByBreed(_petsUIState.value.currentBreed).asResult().collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        _petsUIState.value = _petsUIState.value.copy(
+                            isLoading = false,
+                            cats = it.data
+                        )
+                    }
+
+                    is NetworkResult.Error -> {
+                        _petsUIState.value = _petsUIState.value.copy(
+                            isLoading = false,
+                            error = it.error
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun onAction(action: PetListAction) {
+        when (action) {
+            PetListAction.LoadMore -> {
+                if (_petsUIState.value.isLoading) return
+                _currentPage.value++
+                getPets()
+            }
+
+            is PetListAction.BreedSelected -> {
+                if (_petsUIState.value.currentBreed == action.breed) return
+                _petsUIState.value =
+                    _petsUIState.value.copy(currentBreed = action.breed, cats = emptyList())
+                _currentPage.value = 0
+
+                if (action.breed == "All") {
+                    getPets()
+                } else {
+                    getPetsByBreed()
+                }
+            }
+
+            else -> Unit
+        }
+    }
 
     fun updateCat(cat: CatModel) {
         viewModelScope.launch {
@@ -68,10 +132,5 @@ class PetListViewModel(
                 _favoritePets.value = it
             }
         }
-    }
-
-    fun loadMore() {
-        if (_petsUIState.value.isLoading) return
-        _currentPage.value++
     }
 }

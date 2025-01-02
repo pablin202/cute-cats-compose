@@ -1,20 +1,20 @@
-package com.pdm.cats.domain.models
+package com.pdm.cats.data.local.entity
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Serializable
-@Parcelize
-data class BreedModel(
+@Entity(tableName = "breed")
+data class BreedEntity(
     val countryCode: String,
     val countryCodes: String,
+    @PrimaryKey
     val id: String,
     val lifeSpan: String,
     val name: String,
     val origin: String?,
     val temperament: String,
-    val weight: WeightModel,
+    val weightImperial: String,
+    val weightMetric: String,
     val wikipediaUrl: String?,
     val description: String?,
     val adaptability: Int,
@@ -23,4 +23,4 @@ data class BreedModel(
     val vetstreetUrl: String?,
     val vcahospitalsUrl: String?,
     val cfaUrl: String?
-): Parcelable
+)

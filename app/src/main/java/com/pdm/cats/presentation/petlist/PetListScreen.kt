@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,13 +19,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pdm.cats.R
 import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.presentation.components.CustomTopBar
 import com.pdm.cats.presentation.components.LoadingAnimation
 import com.pdm.cats.presentation.navigation.ContentType
+import com.pdm.cats.presentation.petlist.components.HorizontalSelectableButtons
 import com.pdm.cats.presentation.petlist.components.PetList
 import com.pdm.cats.presentation.petlist.components.PetListAndDetails
 import org.koin.androidx.compose.koinViewModel
@@ -38,11 +42,10 @@ fun SharedTransitionScope.PetListScreen(
 ) {
     val viewModel: PetListViewModel = koinViewModel()
     val petsUIState by viewModel.petsUIState.collectAsStateWithLifecycle()
-    val cats by viewModel.cats.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
-            CustomTopBar("Cute Cats")
+            CustomTopBar(stringResource(R.string.title_list_cute_cats))
         },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -50,12 +53,17 @@ fun SharedTransitionScope.PetListScreen(
             animatedVisibilityScope = animatedVisibilityScope,
             contentType = contentType,
             state = petsUIState,
-            loadMore = {
-                viewModel.loadMore()
+            onAction = { action ->
+                when (action) {
+                    is PetListAction.PetClicked -> {
+                        onPetClicked(action.cat)
+                    }
+
+                    else -> Unit
+                }
+                viewModel.onAction(action)
             },
-        ) {
-            onPetClicked(it)
-        }
+        )
     }
 }
 
@@ -65,11 +73,12 @@ fun SharedTransitionScope.PetListContent(
     animatedVisibilityScope: AnimatedVisibilityScope,
     contentType: ContentType,
     state: PetsUIState,
-    loadMore: () -> Unit,
-    onPetClicked: (CatModel) -> Unit
+    onAction: (PetListAction) -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 106.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -78,24 +87,37 @@ fun SharedTransitionScope.PetListContent(
         }
         AnimatedVisibility(visible = state.cats.isNotEmpty()) {
             if (contentType == ContentType.List) {
+
+                HorizontalSelectableButtons(
+                    Modifier.padding(top = 8.dp),
+                    items = state.breeds,
+                    selectedValue = state.currentBreed,
+                    onSelectionChanged = { onAction(PetListAction.BreedSelected(it)) }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 PetList(
                     animatedVisibilityScope = animatedVisibilityScope,
                     pets = state.cats,
-                    onPetClicked = onPetClicked,
-                    modifier = Modifier.fillMaxSize()
+                    onPetClicked = { onAction(PetListAction.PetClicked(it)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 68.dp)
+                        .weight(1f),
                 ) {
-                    loadMore()
+                    onAction(PetListAction.LoadMore)
                 }
             } else {
                 PetListAndDetails(
                     animatedVisibilityScope = animatedVisibilityScope,
                     cats =
                     state.cats
-                ) { loadMore() }
+                ) { onAction(PetListAction.LoadMore) }
             }
         }
         AnimatedVisibility(visible = state.error != null) {
-            Text(text = state.error ?: "Unknown error", color = Color.Red)
+            Text(text = state.error ?: stringResource(R.string.unknown_error), color = Color.Red)
         }
     }
 }

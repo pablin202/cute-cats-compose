@@ -1,35 +1,48 @@
 package com.pdm.cats.presentation.petdetails
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MonitorWeight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.presentation.components.CustomTopBarWithBack
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -39,7 +52,13 @@ fun SharedTransitionScope.PetDetailsScreen(
     onBackPressed: () -> Unit
 ) {
 
-    Log.d("CAT", catModel.toString())
+    val viewModel: PetDetailsViewModel = koinViewModel()
+
+    val flagUrl by viewModel.flagUrl.collectAsState()
+
+    LaunchedEffect(Unit) {
+        catModel.breeds[0].origin?.let { viewModel.fetchFlagUrl(it) }
+    }
 
     Scaffold(topBar = {
         CustomTopBarWithBack(
@@ -51,13 +70,20 @@ fun SharedTransitionScope.PetDetailsScreen(
             PetDetailsScreenContent(
                 animatedVisibilityScope,
                 modifier = Modifier
-                    .padding(paddingValues),
+                    .padding(
+                        horizontal = paddingValues.calculateRightPadding(
+                            LocalLayoutDirection.current
+                        )
+                    )
+                    .padding(top = paddingValues.calculateTopPadding()),
                 imageUrl = catModel.url,
                 name = catModel.breeds[0].name,
-                description = catModel.breeds[0].description,
+                description = catModel.breeds[0].description?.ifEmpty { "No description available." }
+                    ?: "No description available.",
                 temperament = catModel.breeds[0].temperament,
                 weight = catModel.breeds[0].weight.metric,
-                origin = catModel.breeds[0].origin,
+                origin = catModel.breeds[0].origin?.ifEmpty { "No origin available." }
+                    ?: "No origin available.",
                 lifeSpan = catModel.breeds[0].lifeSpan,
                 adaptability = catModel.breeds[0].adaptability,
                 affectionLevel = catModel.breeds[0].affectionLevel,
@@ -65,7 +91,8 @@ fun SharedTransitionScope.PetDetailsScreen(
                 vetstreetUrl = catModel.breeds[0].vetstreetUrl,
                 cfaUrl = catModel.breeds[0].cfaUrl,
                 vcahospitalsUrl = catModel.breeds[0].vcahospitalsUrl,
-                id = catModel.id
+                id = catModel.id,
+                flagUrl = flagUrl
             )
         }
     )
@@ -89,7 +116,8 @@ fun SharedTransitionScope.PetDetailsScreenContent(
     cfaUrl: String?,
     vetstreetUrl: String?,
     vcahospitalsUrl: String?,
-    id: String
+    id: String,
+    flagUrl: String?
 ) {
     Column(
         modifier = modifier
@@ -158,15 +186,30 @@ fun SharedTransitionScope.PetDetailsScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "Weight: $weight",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.align(Alignment.Start)
-        )
-        Text(
-            text = "Origin: $origin",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.align(Alignment.Start)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.MonitorWeight,
+                contentDescription = "Weight",
+                tint = MaterialTheme.colorScheme.primary
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = "Weight: $weight kgs",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OriginWithFlag(
+            origin = origin,
+            flagUrl = flagUrl
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -235,6 +278,58 @@ fun SharedTransitionScope.PetDetailsScreenContent(
         }
 
         Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+fun OriginWithFlag(
+    origin: String,
+    flagUrl: String?
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+    ) {
+        if (flagUrl != null) {
+            AsyncImage(
+                model = flagUrl,
+                contentDescription = "Flag of $origin",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+
+        Text(
+            text = "Origin: $origin",
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OriginWithFlagPreview() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        OriginWithFlag(
+            origin = "Germany",
+            flagUrl = "https://flagsapi.com/DE/shiny/64.png"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OriginWithFlag(
+            origin = "Unknown Country",
+            flagUrl = null
+        )
     }
 }
 

@@ -72,6 +72,13 @@ dependencies {
 
     implementation(libs.kotlin.parcelize.runtime)
 
+    // Leak Canary
+    debugImplementation(libs.leakcanary.android)
+
+    // Chucker
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker.no.op)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

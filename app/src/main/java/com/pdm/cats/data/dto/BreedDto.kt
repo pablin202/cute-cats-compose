@@ -13,12 +13,12 @@ data class BreedDto(
     @SerialName("life_span")
     val lifeSpan: String,
     val name: String,
-    val origin: String,
+    val origin: String? = null,
     val temperament: String,
     val weight: WeightDto,
-    val description: String,
+    val description: String? = null,
     @SerialName("wikipedia_url")
-    val wikipediaUrl: String,
+    val wikipediaUrl: String? = null,
     val adaptability: Int,
     @SerialName("affection_level")
     val affectionLevel: Int,

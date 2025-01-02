@@ -8,9 +8,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import com.pdm.cats.domain.models.CatModel
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -22,11 +27,13 @@ fun SharedTransitionScope.PetList(
     loadMore: () -> Unit
 ) {
     val listState = rememberLazyListState()
+    var isLoading by remember { mutableStateOf(false) }
+
     LazyColumn(
         modifier = modifier,
         state = listState
     ) {
-        items(pets) { cat ->
+        items(pets, key = { it.id }) { cat ->
             PetListItem(
                 animatedVisibilityScope,
                 cat = cat
@@ -36,12 +43,14 @@ fun SharedTransitionScope.PetList(
         }
     }
 
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.layoutInfo.visibleItemsInfo }
-            .collect { visibleItems ->
-                val lastVisibleItemIndex = visibleItems.lastOrNull()?.index
-                if (lastVisibleItemIndex != null && lastVisibleItemIndex >= pets.size - 3) {
+    LaunchedEffect(listState, pets) {
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
+            .distinctUntilChanged()
+            .collect { lastVisibleItemIndex ->
+                if (!isLoading && lastVisibleItemIndex != null && lastVisibleItemIndex >= pets.size - 3) {
+                    isLoading = true
                     loadMore()
+                    isLoading = false
                 }
             }
     }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Cats</string>
+    <string name="title_list_cute_cats">Cute Cats</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>
