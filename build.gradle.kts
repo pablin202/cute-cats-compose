@@ -6,4 +6,16 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.room) apply false
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+}
+
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    ktlint {
+        verbose.set(true)
+        android.set(true)
+        filter {
+            exclude("**/generated/**")
+        }
+    }
 }

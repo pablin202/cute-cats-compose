@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CatsBottomNavigationBar(
     onFavoriteClick: () -> Unit,
-    onHomeClick: () -> Unit,
+    onHomeClick: () -> Unit
 ) {
     val items = listOf(PetListRoute, FavoritesRoute)
     val selectedItem = remember { mutableStateOf(items[0]) }
@@ -30,7 +30,7 @@ fun CatsBottomNavigationBar(
             )
             clip = true
         },
-        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        containerColor = MaterialTheme.colorScheme.inverseOnSurface
     ) {
         NavigationBarItem(
             selected = selectedItem.value == PetListRoute,

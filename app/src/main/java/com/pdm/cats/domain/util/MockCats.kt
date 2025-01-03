@@ -1,8 +1,6 @@
 package com.pdm.cats.domain.util
 
-import com.pdm.cats.data.dto.Cat
-
-//val mockCats = listOf(
+// val mockCats = listOf(
 //    Cat(
 //        createdAt = "2024-01-01T12:34:56Z",
 //        id = "cat1",
@@ -43,4 +41,4 @@ import com.pdm.cats.data.dto.Cat
 //        updatedAt = "2024-01-10T08:45:10Z",
 //        //imageUrl = "https://www.aspca.org/sites/default/files/cat-care_general-cat-care_body1-left.jpg"
 //    )
-//)
+// )

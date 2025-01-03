@@ -23,4 +23,4 @@ data class BreedModel(
     val vetstreetUrl: String?,
     val vcahospitalsUrl: String?,
     val cfaUrl: String?
-): Parcelable
+) : Parcelable

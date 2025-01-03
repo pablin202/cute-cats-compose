@@ -51,7 +51,6 @@ fun SharedTransitionScope.PetDetailsScreen(
     catModel: CatModel,
     onBackPressed: () -> Unit
 ) {
-
     val viewModel: PetDetailsViewModel = koinViewModel()
 
     val flagUrl by viewModel.flagUrl.collectAsState()
@@ -60,12 +59,13 @@ fun SharedTransitionScope.PetDetailsScreen(
         catModel.breeds[0].origin?.let { viewModel.fetchFlagUrl(it) }
     }
 
-    Scaffold(topBar = {
-        CustomTopBarWithBack(
-            title = "Cat Details",
-            onBackPressed = onBackPressed
-        )
-    },
+    Scaffold(
+        topBar = {
+            CustomTopBarWithBack(
+                title = "Cat Details",
+                onBackPressed = onBackPressed
+            )
+        },
         content = { paddingValues ->
             PetDetailsScreenContent(
                 animatedVisibilityScope,
@@ -172,7 +172,7 @@ fun SharedTransitionScope.PetDetailsScreenContent(
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 8.dp)
             ) {
                 temperament.split(",").forEach { temp ->
                     SuggestionChip(
@@ -189,7 +189,7 @@ fun SharedTransitionScope.PetDetailsScreenContent(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.Start
         ) {
             Icon(
                 imageVector = Icons.Filled.MonitorWeight,
@@ -201,7 +201,7 @@ fun SharedTransitionScope.PetDetailsScreenContent(
 
             Text(
                 text = "Weight: $weight kgs",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
 
@@ -289,7 +289,7 @@ fun OriginWithFlag(
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
+        horizontalArrangement = Arrangement.Start
     ) {
         if (flagUrl != null) {
             AsyncImage(
@@ -333,9 +333,9 @@ fun OriginWithFlagPreview() {
     }
 }
 
-//@Preview(showBackground = true, name = "Pet Details Screen")
-//@Composable
-//fun PreviewPetDetailsScreenContent() {
+// @Preview(showBackground = true, name = "Pet Details Screen")
+// @Composable
+// fun PreviewPetDetailsScreenContent() {
 //    PetDetailsScreenContent(
 //        imageUrl = "https://placekitten.com/800/400",
 //        name = "Turkish Van",
@@ -351,4 +351,4 @@ fun OriginWithFlagPreview() {
 //        vetstreetUrl = "http://www.vetstreet.com/cats/turkish-van",
 //        vcahospitalsUrl = "https://vcahospitals.com/know-your-pet/cat-breeds/turkish-van"
 //    )
-//}
+// }

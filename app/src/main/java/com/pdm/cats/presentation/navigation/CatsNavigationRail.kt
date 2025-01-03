@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 fun CatsNavigationRail(
     onFavoriteClick: () -> Unit,
     onHomeClick: () -> Unit,
-    onDrawerClick: () -> Unit,
+    onDrawerClick: () -> Unit
 ) {
     val items = listOf(PetListRoute, FavoritesRoute)
     val selectedItem = remember { mutableStateOf(items[0]) }

@@ -28,7 +28,6 @@ class PetsRepositoryImpl(
             val headers = response.headers()
             val paginationCount = headers["pagination-count"]
         } else {
-
         }
     }
 
@@ -43,7 +42,9 @@ class PetsRepositoryImpl(
             Log.d("CatsRepositoryImpl", "Cats by breed: $catModels")
             emit(catModels)
         } else {
-            throw Exception("Failed to fetch cats by breed: ${response.code()} - ${response.message()}")
+            throw Exception(
+                "Failed to fetch cats by breed: ${response.code()} - ${response.message()}"
+            )
         }
     }.flowOn(dispatcher)
 
@@ -60,7 +61,6 @@ class PetsRepositoryImpl(
             throw Exception("Failed to fetch cats: ${response.code()} - ${response.message()}")
         }
     }.flowOn(dispatcher)
-
 
     override suspend fun fetchRemoteCats() {
         TODO("Not yet implemented")
@@ -96,7 +96,9 @@ class PetsRepositoryImpl(
                 cachedBreeds = breedDao.getAllBreads().first()
                 emit(cachedBreeds.map { it.toModel() })
             } else {
-                throw Exception("Failed to fetch breeds: ${breedsFromNetwork.code()} - ${breedsFromNetwork.message()}")
+                throw Exception(
+                    "Failed to fetch breeds: ${breedsFromNetwork.code()} - ${breedsFromNetwork.message()}"
+                )
             }
         }
     }.flowOn(dispatcher)

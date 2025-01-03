@@ -4,9 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.pdm.cats.data.local.entity.BreedEntity
-import com.pdm.cats.data.local.entity.CatEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

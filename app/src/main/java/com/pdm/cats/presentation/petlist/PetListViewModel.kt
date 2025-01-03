@@ -43,7 +43,6 @@ class PetListViewModel(
                     }
 
                     is NetworkResult.Error -> {
-
                     }
                 }
             }

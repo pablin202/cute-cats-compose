@@ -12,6 +12,6 @@ fun <T> Flow<T>.stateInWhileSubscribed(initialValue: T): StateFlow<T> {
     return stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = initialValue,
+        initialValue = initialValue
     )
 }

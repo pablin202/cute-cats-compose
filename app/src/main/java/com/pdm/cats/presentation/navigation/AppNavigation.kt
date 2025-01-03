@@ -28,7 +28,7 @@ fun AppNavigation(
             composable<PetListRoute> {
                 PetListScreen(
                     animatedVisibilityScope = this,
-                    contentType = contentType,
+                    contentType = contentType
                 ) {
                     navHostController.navigate(
                         route = PetDetailsRoute(
@@ -40,8 +40,7 @@ fun AppNavigation(
 
             composable<PetDetailsRoute>(
                 typeMap = mapOf(typeOf<CatModel>() to CatType)
-            )
-            { backStackEntry ->
+            ) { backStackEntry ->
                 val detailsParameters = backStackEntry.toRoute<PetDetailsRoute>()
                 PetDetailsScreen(
                     animatedVisibilityScope = this,

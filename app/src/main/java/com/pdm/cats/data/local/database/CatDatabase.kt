@@ -14,7 +14,7 @@ import com.pdm.cats.data.local.entity.CatEntity
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
-        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 2, to = 3)
     ]
 )
 abstract class CatDatabase : RoomDatabase() {

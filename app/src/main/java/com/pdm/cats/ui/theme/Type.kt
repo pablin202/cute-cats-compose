@@ -2,8 +2,8 @@ package com.pdm.cats.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.pdm.cats.R
 
 val provider = GoogleFont.Provider(
@@ -15,14 +15,14 @@ val provider = GoogleFont.Provider(
 val bodyFontFamily = FontFamily(
     Font(
         googleFont = GoogleFont("Abel"),
-        fontProvider = provider,
+        fontProvider = provider
     )
 )
 
 val displayFontFamily = FontFamily(
     Font(
         googleFont = GoogleFont("Alegreya SC"),
-        fontProvider = provider,
+        fontProvider = provider
     )
 )
 
@@ -44,6 +44,5 @@ val AppTypography = Typography(
     bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
     labelLarge = baseline.labelLarge.copy(fontFamily = bodyFontFamily),
     labelMedium = baseline.labelMedium.copy(fontFamily = bodyFontFamily),
-    labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily),
+    labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily)
 )
-

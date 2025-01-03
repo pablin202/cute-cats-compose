@@ -6,8 +6,8 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pdm.cats.data.local.database.CatDatabase
-import com.pdm.cats.data.repository.PetsRepositoryImpl
 import com.pdm.cats.data.networking.CatsApi
+import com.pdm.cats.data.repository.PetsRepositoryImpl
 import com.pdm.cats.domain.repository.PetsRepository
 import com.pdm.cats.domain.use_cases.GetCountryFlagUrlUseCase
 import com.pdm.cats.presentation.petdetails.PetDetailsViewModel
@@ -17,7 +17,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -53,7 +52,6 @@ val appModules = module {
             .addInterceptor(chuckerInterceptor)
             .build()
     }
-
 
     // Retrofit
     single {

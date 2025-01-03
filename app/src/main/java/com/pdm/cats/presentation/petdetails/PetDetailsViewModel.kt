@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class PetDetailsViewModel(
     private val getCountryFlagUrlUseCase: GetCountryFlagUrlUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _flagUrl = MutableStateFlow<String?>(null)
     val flagUrl: StateFlow<String?> = _flagUrl

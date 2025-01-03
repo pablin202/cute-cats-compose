@@ -62,7 +62,7 @@ fun SharedTransitionScope.PetListScreen(
                     else -> Unit
                 }
                 viewModel.onAction(action)
-            },
+            }
         )
     }
 }
@@ -87,7 +87,6 @@ fun SharedTransitionScope.PetListContent(
         }
         AnimatedVisibility(visible = state.cats.isNotEmpty()) {
             if (contentType == ContentType.List) {
-
                 HorizontalSelectableButtons(
                     Modifier.padding(top = 8.dp),
                     items = state.breeds,
@@ -104,7 +103,7 @@ fun SharedTransitionScope.PetListContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 68.dp)
-                        .weight(1f),
+                        .weight(1f)
                 ) {
                     onAction(PetListAction.LoadMore)
                 }
@@ -122,10 +121,10 @@ fun SharedTransitionScope.PetListContent(
     }
 }
 
-//@OptIn(ExperimentalSharedTransitionApi::class)
-//@Preview(showBackground = true)
-//@Composable
-//fun PetListScreenPreview() {
+// @OptIn(ExperimentalSharedTransitionApi::class)
+// @Preview(showBackground = true)
+// @Composable
+// fun PetListScreenPreview() {
 //    SharedTransitionLayout { animatedVisibilityScope ->
 //        PetListScreen(
 //            animatedVisibilityScope = animatedVisibilityScope,
@@ -134,4 +133,4 @@ fun SharedTransitionScope.PetListContent(
 //
 //        }
 //    }
-//}
+// }

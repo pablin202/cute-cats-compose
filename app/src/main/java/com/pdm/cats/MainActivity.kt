@@ -74,7 +74,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             AppTheme {
-
                 val navigationType: NavigationType
                 val contentType: ContentType
 
@@ -86,8 +85,8 @@ class MainActivity : ComponentActivity() {
 
                     WindowWidthSizeClass.Medium -> {
                         navigationType = NavigationType.NavigationRail
-                        contentType = if (devicePosture is DeviceFoldPosture.BookPosture
-                            || devicePosture is DeviceFoldPosture.SeparatingPosture
+                        contentType = if (devicePosture is DeviceFoldPosture.BookPosture ||
+                            devicePosture is DeviceFoldPosture.SeparatingPosture
                         ) {
                             ContentType.Details
                         } else {
@@ -145,7 +144,6 @@ class MainActivity : ComponentActivity() {
                                 CatsNavigationDrawer(
                                     onFavoriteClick = {
                                         navController.navigate(route = FavoritesRoute)
-
                                     },
                                     onHomeClick = {
                                         navController.navigate(route = PetListRoute)

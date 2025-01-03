@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pdm.cats.data.dto.Cat
 import com.pdm.cats.domain.models.CatModel
 import com.pdm.cats.presentation.petdetails.PetDetailsScreenContent
 import com.pdm.cats.presentation.petdetails.PetDetailsViewModel

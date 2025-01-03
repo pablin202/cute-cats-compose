@@ -22,6 +22,5 @@ interface CatsApi {
     ): Response<List<CatDto>>
 
     @GET("breeds")
-    suspend fun fetchBreeds(
-    ): Response<List<BreedDto>>
+    suspend fun fetchBreeds(): Response<List<BreedDto>>
 }

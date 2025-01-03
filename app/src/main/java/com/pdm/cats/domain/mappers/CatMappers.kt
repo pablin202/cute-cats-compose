@@ -1,6 +1,5 @@
 package com.pdm.cats.domain.mappers
 
-import androidx.compose.ui.Modifier
 import com.pdm.cats.data.dto.BreedDto
 import com.pdm.cats.data.dto.CatDto
 import com.pdm.cats.data.dto.WeightDto
@@ -79,7 +78,6 @@ fun BreedEntity.toModel(): BreedModel {
         cfaUrl = this.cfaUrl
     )
 }
-
 
 fun CatDto.toModel(): CatModel {
     return CatModel(

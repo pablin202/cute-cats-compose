@@ -15,7 +15,7 @@ fun FavoritesScreen() {
     Scaffold(
         topBar = {
             CustomTopBar("Favorites")
-        },
+        }
     ) { padding ->
         Box(
             modifier = Modifier
