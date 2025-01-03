@@ -1,6 +1,13 @@
 package com.pdm.cats.presentation.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pets
@@ -39,7 +46,7 @@ fun CustomSelectableButton(
                 containerColor = if (selectedValue == value) MaterialTheme.colorScheme.primary else Color.LightGray
             ),
             shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth() // El botón ocupa todo el ancho disponible
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = text,
@@ -51,7 +58,7 @@ fun CustomSelectableButton(
         Icon(
             imageVector = Icons.Filled.Pets,
             contentDescription = "Pets Icon",
-            tint = if (selectedValue == value) MaterialTheme.colorScheme.onPrimary else Color.Gray,
+            tint = if (selectedValue == value) MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f) else Color.Gray.copy(alpha = 0.8f),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .rotate(-30f)
