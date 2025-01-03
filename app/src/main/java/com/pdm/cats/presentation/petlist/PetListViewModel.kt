@@ -25,10 +25,9 @@ class PetListViewModel(
 
     init {
         if (_petsUIState.value.cats.isEmpty()) {
-            Log.d("PetListViewModel", "Initializing ViewModel")
             _petsUIState.value = _petsUIState.value.copy(isLoading = true)
-            getPets()
             getBreeds()
+            getPets()
         }
     }
 
@@ -49,7 +48,7 @@ class PetListViewModel(
         }
     }
 
-    private fun getPets() {
+    fun getPets() {
         viewModelScope.launch {
             petsRepository.getCats(_currentPage.value).asResult().collect {
                 when (it) {
