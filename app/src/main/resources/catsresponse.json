@@ -1,0 +1,89 @@
+[
+  {
+    "breeds": [
+      {
+        "country_code": "US",
+        "country_codes": "US",
+        "id": "abys",
+        "life_span": "14 - 15",
+        "name": "Abyssinian",
+        "origin": "Ethiopia",
+        "temperament": "Active, Energetic, Independent, Intelligent, Gentle",
+        "weight": {
+          "imperial": "7 - 10",
+          "metric": "3 - 5"
+        },
+        "description": "The Abyssinian is easy to care for, and a joy to have in your home.",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Abyssinian_(cat)",
+        "adaptability": 5,
+        "affection_level": 5,
+        "energy_level": 5,
+        "vetstreet_url": "http://www.vetstreet.com/cats/abyssinian",
+        "vcahospitals_url": "https://vcahospitals.com/know-your-pet/cat-breeds/abyssinian",
+        "cfa_url": "http://cfa.org/Breeds/BreedsAB/Abyssinian.aspx"
+      }
+    ],
+    "height": 25,
+    "id": "12345",
+    "url": "https://example.com/cat1.jpg",
+    "width": 30
+  },
+  {
+    "breeds": [
+      {
+        "country_code": "JP",
+        "country_codes": "JP",
+        "id": "bobt",
+        "life_span": "15 - 18",
+        "name": "Japanese Bobtail",
+        "origin": "Japan",
+        "temperament": "Affectionate, Intelligent, Playful, Energetic",
+        "weight": {
+          "imperial": "5 - 10",
+          "metric": "2 - 5"
+        },
+        "description": "Japanese Bobtails are known for their unique tails and loving personalities.",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Japanese_Bobtail",
+        "adaptability": 4,
+        "affection_level": 4,
+        "energy_level": 5,
+        "vetstreet_url": null,
+        "vcahospitals_url": null,
+        "cfa_url": "http://cfa.org/Breeds/BreedsCJ/JapaneseBobtail.aspx"
+      }
+    ],
+    "height": 20,
+    "id": "67890",
+    "url": "https://example.com/cat2.jpg",
+    "width": 25
+  },
+  {
+    "breeds": [
+      {
+        "country_code": "GB",
+        "country_codes": "GB",
+        "id": "brit",
+        "life_span": "12 - 16",
+        "name": "British Shorthair",
+        "origin": "United Kingdom",
+        "temperament": "Easygoing, Independent, Intelligent, Calm",
+        "weight": {
+          "imperial": "9 - 17",
+          "metric": "4 - 8"
+        },
+        "description": "The British Shorthair is a loyal companion and a great addition to any family.",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/British_Shorthair",
+        "adaptability": 5,
+        "affection_level": 4,
+        "energy_level": 3,
+        "vetstreet_url": null,
+        "vcahospitals_url": "https://vcahospitals.com/know-your-pet/cat-breeds/british-shorthair",
+        "cfa_url": null
+      }
+    ],
+    "height": 22,
+    "id": "54321",
+    "url": "https://example.com/cat3.jpg",
+    "width": 28
+  }
+]
